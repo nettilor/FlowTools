@@ -3,8 +3,6 @@ import os
 import sys
 import warnings
 
-test
-
 warnings.filterwarnings("ignore")
 sys.stderr = open(os.devnull, 'w')
 # Set the theme to match macOS better
