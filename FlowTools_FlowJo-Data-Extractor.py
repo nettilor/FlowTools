@@ -25,7 +25,7 @@ layout = [
      sg.Input(default_text=default_fcs_path, key="-FCS-FOLDER-", background_color='white'), 
      sg.FolderBrowse()],
     [sg.Text("Output CSV File:", background_color='white'), 
-     sg.Input(default_text=default_output, key="-OUTPUT-", background_color='white'), 
+     sg.Input(default_text=default_output, key="-OUTPUT-", background_color='white'),
      sg.FileSaveAs(file_types=(("CSV Files", "*.csv"),))],
     [sg.Text("Selected Groups (comma-separated):", background_color='white'), 
      sg.Input(default_text=default_groups, key="-GROUPS-", background_color='white')],
