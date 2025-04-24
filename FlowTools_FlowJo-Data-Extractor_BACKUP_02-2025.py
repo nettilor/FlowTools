@@ -185,24 +185,20 @@ if (fields != ['']):
 #-----------------------------------------
 # Compute MFIs
 print('Computing MFIs...', end='\r')
-
+## ADDING A SECTION TO FIND ALL FLUOROPHORES IN THE GATES AND ADD THEM TO THE LIST OF FLUOROPHORES
+for selected_group in selected_groups:
+    sample_ids = wsp.get_sample_ids(group_name=selected_group)
+    for sample_id in sample_ids:
+        sample = wsp.get_sample(sample_id)
+        print(sample.channels["pns"])
+        break
+    break
 
 ## First of all this needs to be done per group because we assume all groups have same gates
 #selected_groups = 'Blood samples'
 # Now we can specify gates and channels of interest in a format that is Gate - [channels]
 #NEED TO ADD ONE MORE FOR LOOP HERE IF MULTIPLE SAMPLES ARE SELECTED
 for selected_group in selected_groups:
-    for elements in list_mfi:
-        gate = elements[0]
-        fluorophores = elements[1]
-        if gate == "*":
-            wsp.analyze_samples(group_name=selected_group, verbose=False, use_mp=True)
-            results_report = wsp.get_analysis_report(group)
-            all_gates = results_report['gate_name'].unique()
-            # need to modify list_mfi to include all gates
-            for g in all_gates:
-                list_mfi.append([g, fluorophores])
-    #  ADD COLUMN FOR SAMPLE ID
     sample_ids = wsp.get_sample_ids(group_name=selected_group)
     # add columns for MFI to df
     for statistic in statistics:
@@ -210,21 +206,12 @@ for selected_group in selected_groups:
         for elements in list_mfi:
             gate = elements[0]
             fluorophores = elements[1]
-            # Here check if fluorophores is "*" if yes then compute all fluorophores
-            if fluorophores == ["*"]:
-                for sample_id in sample_ids:
-                    sample = wsp.get_sample(sample_id)
-                    fluorophores = sample.channels["pns"]
-                    fluorophores = [x for x in fluorophores if x]
-                    break
             if i==0:
                 for fluo in fluorophores:
                     i=i+1
                     group_results_report[fluo + '_' + statistic] = np.nan
             # need to add gates and channels of interest in the loop
             for sample_id in sample_ids:
-                if gate == "*":
-                    break
                 selected_gates = group_results_report[group_results_report['gate_name'] == gate].loc[sample_id]
                 if type(selected_gates) == pd.core.series.Series:
                     # this means there is only one gate that matches the selection in this sample
