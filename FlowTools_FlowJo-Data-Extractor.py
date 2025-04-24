@@ -9,12 +9,12 @@ sys.stderr = open(os.devnull, 'w')
 sg.theme('SystemDefault')
 
 # Default values
-default_workspace = "/Users/nettilor/Documents/LN_20250203_P02-033/05-Feb-2025.wsp"
-default_fcs_path = "/Users/nettilor/Documents/LN_20250203_P02-033/Unmixed"
-default_groups = "Samples"
+default_workspace = ""
+default_fcs_path = ""
+default_groups = ""
 default_keywords = ""
 default_gates_fluoro = ""
-default_output = "/Users/nettilor/Documents/LN_20250203_P02-033/05-Feb-2025.csv"
+default_output = ""
 
 # Define the layout for the UI
 layout = [
@@ -31,7 +31,7 @@ layout = [
      sg.Input(default_text=default_groups, key="-GROUPS-", background_color='white')],
     [sg.Text("Keywords (comma-separated):", background_color='white'), 
      sg.Input(default_text=default_keywords, key="-KEYWORDS-", background_color='white')],
-    [sg.Text("Gates and Fluorophores (Gate1: Fluo1, Fluo2...):", background_color='white')],
+    [sg.Text("Gates and Fluorophores (Gate1: Fluo1, Fluo2...) OR (*: *) does all fluorophores for all gates:", background_color='white')],
     [sg.Multiline(default_text=default_gates_fluoro, key="-GATES-FLUORO-", size=(50, 5), background_color='white')],
     [sg.Text("MFI Statistics:", background_color='white')],
     [sg.Checkbox('Mean', key='-MEAN-', background_color='white', default=False),
