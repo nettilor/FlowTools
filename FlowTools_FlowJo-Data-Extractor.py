@@ -246,13 +246,16 @@ for selected_group in selected_groups:
                         comp_events = sample.get_channel_events(channel_index, source='comp')
                         # Apply the Boolean gate membership from above to filter for the gated events 
                         pos_comp_events = comp_events[gate_events]
-                        if statistic == 'mean':
-                            gate_mfi = pos_comp_events.mean()
-                        elif statistic == 'median':
-                            gate_mfi = np.median(pos_comp_events)
-                        elif statistic == 'geo_mean':
-                            gate_mfi = sp.stats.gmean(abs(pos_comp_events))
-                        
+                        if pos_comp_events.size == 0:
+                                gate_mfi = np.nan
+                        else:
+                            if statistic == 'mean':
+                                gate_mfi = pos_comp_events.mean()
+                            elif statistic == 'median':
+                                gate_mfi = np.median(pos_comp_events)
+                            elif statistic == 'geo_mean':
+                                gate_mfi = sp.stats.gmean(abs(min(pos_comp_events))+1+pos_comp_events)
+                    
                         # put mfi in place
                         group_results_report.loc[(group_results_report.index==sample_id) & (group_results_report['gate_name'] == gate),
                                                 fluo + '_' + statistic] = gate_mfi
@@ -279,12 +282,15 @@ for selected_group in selected_groups:
                             comp_events = sample.get_channel_events(channel_index, source='comp')
                             # Apply the Boolean gate membership from above to filter for the gated events 
                             pos_comp_events = comp_events[gate_events]
-                            if statistic == 'mean':
-                                gate_mfi = pos_comp_events.mean()
-                            elif statistic == 'median':
-                                gate_mfi = np.median(pos_comp_events)
-                            elif statistic == 'geo_mean':
-                                gate_mfi = sp.stats.gmean(abs(pos_comp_events))
+                            if pos_comp_events.size == 0:
+                                gate_mfi = np.nan
+                            else:
+                                if statistic == 'mean':
+                                    gate_mfi = pos_comp_events.mean()
+                                elif statistic == 'median':
+                                    gate_mfi = np.median(pos_comp_events)
+                                elif statistic == 'geo_mean':
+                                    gate_mfi = sp.stats.gmean(abs(min(pos_comp_events))+1+pos_comp_events)
                             # put mfi in place
                             group_results_report.loc[(group_results_report.index==sample_id) & (group_results_report['gate_name'] == gate) & (group_results_report['gate_path'] == selected_gate_path),
                                                     fluo + '_' + statistic] = gate_mfi
